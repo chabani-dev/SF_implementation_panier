@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+    <h1>Panier</h1>
+
+    <table class="table">
+        <tbody>
+        {# on créé un compteur qui permettra de calculer le montant du panier #}
+        {% set total = 0 %}
+        {% for ligne_commande in panier.ligneCommandes %}
+
+            <tr>
+            {# on affiche les propriétés désirées #}
+                <td>{{ ligne_commande.produit.nom }}</td>
+                <td>{{ ligne_commande.quantite }}</td>
+                {# en TWIG il est possible de multiplier, additionner, soustraire ou diviser les propriétés entre elles si leur type s'y prète (integer ou float) #}
+                <td>{{ ligne_commande.quantite * ligne_commande.produit.prix }}</td>
+            </tr>
+
+            {# à chaque tour de boucle, càd pour chaque ligne de commande, on incrémente le compteur avec le montant de ctte ligne #}
+            {% set total = total + (ligne_commande.quantite * ligne_commande.produit.prix) %}
+        {% endfor %}
+
+            <tr>
+                <td>Montant</td>
+                {# maintenant on peut afficher le compteur qui contient le montant total, on pourrait aussi lui appliquer un traitement pour une remise ou calculer la tva... #}
+                <td>{{ total }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {# ici on affiche formulaire qui est constitué d'un bouton unique qui servira à valider le panier #}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}

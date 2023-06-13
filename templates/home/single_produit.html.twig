@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ produit.nom }}{% endblock %}
+
+{% block body %}
+    <h1>{{ produit.nom }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ produit.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ produit.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{# cette partie contient le formulaire qui permet d'ajouter des articles au panier, elle ne devrait être visible que pour le client connecté #}
+    {% if app.user %}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-success m-2">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+    {% endif %}
+    
+{% endblock %}
